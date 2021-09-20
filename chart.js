@@ -1,6 +1,6 @@
 
 
-const ammendmentsOne = [
+const ammendments1 = [
 	{
 		"distance": 5000,
 		"distanceAmendment": -102.92796325683594,
@@ -18,7 +18,7 @@ const ammendmentsOne = [
 	}
 ]
 
-const ammendmentsTwo = [
+const ammendments2 = [
 	{
 		"distance": 5000,
 		"distanceAmendment": 129.80615234375,
@@ -36,7 +36,7 @@ const ammendmentsTwo = [
 	}
 ]
 
-const ammendmentsThree = [
+const ammendments3 = [
 	{
 		"distance": 5000,
 		"distanceAmendment": 311.75286865234375,
@@ -54,7 +54,7 @@ const ammendmentsThree = [
 	}
 ]
 
-const ammendmentsFour = [
+const ammendments4 = [
 	{
 		"distance": 6000,
 		"distanceAmendment": 697.268310546875,
@@ -72,7 +72,7 @@ const ammendmentsFour = [
 	}
 ]
 
-const ammendmentsFive = [
+const ammendments5 = [
 	{
 		"distance": 3000,
 		"distanceAmendment": 854.1798095703125,
@@ -98,7 +98,7 @@ const distanceToRender = (amendment) => amendment.distance / 1000
 const distanceAmendmentToRender = (amendment) => Number(amendment.distanceAmendment.toFixed(0))
 const reversalAmendmentToRender = (amendment) => Number(amendment.reversalAmendment.toFixed(2))
 
-const amendmentsToRender = ammendmentsOne.map(amendment => ([
+const amendmentsToRender = ammendments4.map(amendment => ([
 	distanceToRender(amendment),
 	distanceAmendmentToRender(amendment),
 	reversalAmendmentToRender(amendment),
@@ -159,8 +159,11 @@ const rangeYpoints = (rangeY, rangeYmin) => {
 
 
 
-const resp = rangeXpoints(28, 5);
-console.log('resp', resp);
+const xPoints = rangeXpoints(rangeX, rangeXmin);
+const yPoints = rangeYpoints(rangeY, rangeYmin);
+
+console.log('yPoihts', yPoints);
+
 
 
 // console.log('distanceAmendments', distanceAmendments);
@@ -169,11 +172,6 @@ console.log('resp', resp);
 // console.log('distances', distances);
 // console.log('rangeX', rangeX);
 // console.log('rangeY', rangeY);
-
-
-
-
-
 
 
 
@@ -210,14 +208,36 @@ const draw = () => {
 		ctx.fill(triangleX)
 
 
-		//dashed line
-		ctx.lineWidth = 2;
-		ctx.setLineDash([5, 5]);
-		ctx.beginPath();
-		ctx.moveTo(57.5, 256);
-		ctx.lineTo(448.5, 256);
-		// ctx.lineTo(450, 303.5);
-		ctx.stroke();
+		ctx.font = "16px openSans";
+
+		//loop for dashed lineY
+		for (let i = 0, p = 44; i < 5; i++, p = p + 44) {
+			ctx.lineWidth = 2;
+			ctx.setLineDash([5, 5]);
+			ctx.beginPath();
+			ctx.moveTo(57.5, 295 - p);
+			ctx.lineTo(448.5, 295 - p);
+			ctx.stroke();
+
+			ctx.fillText(`${yPoints[i]}`, 20.5, 300 - p);
+		}
+
+		//loop for dashed lineX
+		for (let i = 0, p = 66; i < 5; i++, p = p + 66) {
+			ctx.lineWidth = 2;
+			ctx.setLineDash([5, 5]);
+			ctx.beginPath();
+			ctx.moveTo(56.5 + p, 296);
+			ctx.lineTo(56.5 + p, 32);
+			ctx.stroke();
+
+			ctx.fillText(`${xPoints[i]}`, 52.5 + p, 312);
+
+		}
+
+
+
+
 
 
 	}
