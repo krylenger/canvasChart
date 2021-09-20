@@ -110,29 +110,57 @@ const distanceAmendments = [amendmentsToRender[0][1], amendmentsToRender[1][1], 
 
 const rangeXmax = Math.max(...distances)
 const rangeXmin = Math.min(...distances)
-const rangeX = rangeXmax - rangeXmin + 2;
+const rangeX = rangeXmax - rangeXmin;
+
+// console.log('distances', distances);
+// console.log('rangeX', rangeX);
+
 
 const rangeYmax = Math.max(...distanceAmendments)
 const rangeYmin = Math.min(...distanceAmendments)
-const rangeY = rangeYmax - rangeYmin + 200;
+const rangeY = rangeYmax - rangeYmin;
 
-const rangeXpoints = (rangeX) => {
-	let rangeXpointsArr = []
-	switch (rangeX) {
-		case rangeX <= 5:
-			rangeXpointsArr = [1, 2, 3, 4, 5]
-			return rangeXpointsArr
-		case rangeX <= 10:
-			rangeXpointsArr = [2, 4, 6, 8, 10]
-			return rangeXpointsArr
-		case rangeX <= 15:
-			rangeXpointsArr = [3, 6, 9, 12, 15]
-			return rangeXpointsArr
-		case rangeX <= 20:
-			rangeXpointsArr = [4, 8, 12, 14, 18]
-			return rangeXpointsArr
-	}
+// console.log('distances', distances);
+// console.log('rangeY', rangeY);
+
+const rangeXpoints = (rangeX, rangeXmin) => {
+	if (rangeX <= 5) {
+		rangeXmin = rangeXmin >= 25 ? 25 : rangeXmin
+		return [rangeXmin, rangeXmin + 1, rangeXmin + 2, rangeXmin + 3, rangeXmin + 4]
+	} else if (rangeX <= 10) {
+		rangeXmin = rangeXmin >= 20 ? 20 : rangeXmin
+		return [rangeXmin, rangeXmin + 2, rangeXmin + 4, rangeXmin + 6, rangeXmin + 8]
+	} else if (rangeX <= 15) {
+		rangeXmin = rangeXmin >= 15 ? 15 : rangeXmin
+		return [rangeXmin, rangeXmin + 3, rangeXmin + 6, rangeXmin + 9, rangeXmin + 12]
+	} else if (rangeX <= 20) {
+		rangeXmin = rangeXmin >= 10 ? 10 : rangeXmin
+		return [rangeXmin, rangeXmin + 4, rangeXmin + 8, rangeXmin + 12, rangeXmin + 16]
+	} else if (rangeX <= 25) {
+		rangeXmin = rangeXmin >= 5 ? 5 : rangeXmin
+		return [rangeXmin, rangeXmin + 5, rangeXmin + 10, rangeXmin + 15, rangeXmin + 20]
+	} else if (rangeX <= 30)
+		return [0, 8, 16, 24, 32]
 }
+
+const rangeYpoints = (rangeY, rangeYmin) => {
+	if (rangeY <= 500) {
+		rangeYmin = rangeYmin >= 1500 ? 500 : rangeYmin
+		return [rangeYmin, rangeYmin + 100, rangeYmin + 200, rangeYmin + 300, rangeYmin + 400]
+	} else if (rangeY <= 1000) {
+		rangeYmin = rangeYmin >= 1000 ? 0 : rangeYmin
+		return [rangeYmin, rangeYmin + 200, rangeYmin + 400, rangeYmin + 600, rangeYmin + 800]
+	} else if (rangeY <= 1500) {
+		rangeYmin = rangeYmin >= 1500 ? -500 : rangeYmin
+		return [rangeYmin, rangeYmin + 300, rangeYmin + 600, rangeYmin + 900, rangeYmin + 1200]
+	} else if (rangeY <= 2000)
+		return [-1000, -500, 0, 500, 1000]
+}
+
+
+
+const resp = rangeXpoints(28, 5);
+console.log('resp', resp);
 
 
 // console.log('distanceAmendments', distanceAmendments);
