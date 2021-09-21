@@ -98,7 +98,7 @@ const distanceToRender = (amendment) => amendment.distance / 1000
 const distanceAmendmentToRender = (amendment) => Number(amendment.distanceAmendment.toFixed(0))
 const reversalAmendmentToRender = (amendment) => Number(amendment.reversalAmendment.toFixed(2))
 
-const amendmentsToRender = ammendments4.map(amendment => ([
+const amendmentsToRender = ammendments5.map(amendment => ([
 	distanceToRender(amendment),
 	distanceAmendmentToRender(amendment),
 	reversalAmendmentToRender(amendment),
@@ -158,14 +158,18 @@ const rangeYpoints = (rangeY, rangeYmin) => {
 }
 
 
-
 const xPoints = rangeXpoints(rangeX, rangeXmin);
-const yPoints = rangeYpoints(rangeY, rangeYmin);
+const yPoints = rangeYpoints(rangeY, Math.floor(rangeYmin / 100) * 100);
 
+const valueOfPixelX = (xPoints[1] - xPoints[0]) / 66
+const valueOfPixelY = (yPoints[1] - yPoints[0]) / 44
+
+
+
+
+console.log('valueOfPixelX', valueOfPixelX);
+console.log('valueOfPixeY', valueOfPixelY);
 console.log('yPoihts', yPoints);
-
-
-
 // console.log('distanceAmendments', distanceAmendments);
 // console.log('rangeXmax', rangeXmax);
 // console.log('rangeXmin', rangeXmin);
@@ -195,12 +199,14 @@ const draw = () => {
 		ctx.lineTo(462, 295.5);
 		ctx.stroke();
 
+		//X triangle
 		const triangleY = new Path2D();
 		triangleY.moveTo(56.5, 29);
 		triangleY.lineTo(48, 44);
 		triangleY.lineTo(65, 44);
 		ctx.fill(triangleY)
 
+		//X triangle
 		const triangleX = new Path2D();
 		triangleX.moveTo(465, 295.5);
 		triangleX.lineTo(450, 286.5);
@@ -208,9 +214,16 @@ const draw = () => {
 		ctx.fill(triangleX)
 
 
-		ctx.font = "16px openSans";
+		ctx.font = '16px openSans'
+		//Y legenda
+		ctx.fillText(`ΔДΣ`, 17, 30);
 
-		//loop for dashed lineY
+
+
+		//Y legenda
+		ctx.fillText(`Дт, км`, 468, 312);
+
+		//loop for draw dashed lineY
 		for (let i = 0, p = 44; i < 5; i++, p = p + 44) {
 			ctx.lineWidth = 2;
 			ctx.setLineDash([5, 5]);
@@ -222,7 +235,7 @@ const draw = () => {
 			ctx.fillText(`${yPoints[i]}`, 20.5, 300 - p);
 		}
 
-		//loop for dashed lineX
+		//loop for draw dashed lineX
 		for (let i = 0, p = 66; i < 5; i++, p = p + 66) {
 			ctx.lineWidth = 2;
 			ctx.setLineDash([5, 5]);
@@ -232,15 +245,42 @@ const draw = () => {
 			ctx.stroke();
 
 			ctx.fillText(`${xPoints[i]}`, 52.5 + p, 312);
-
 		}
 
+		//draw points 
+
+		//calculate point
+		let points = []
+		amendmentsToRender.forEach(amendment => {
+			const distaneFromBeginningY = (amendment[1] - yPoints[0]) / valueOfPixelY
+			const distaneFromBeginningX = (amendment[0] - xPoints[0]) / valueOfPixelX
+
+			points.push([122.5 + distaneFromBeginningX, 251.5 - distaneFromBeginningY])
+		})
+
+		//draw lines
+		ctx.lineWidth = 3;
+		ctx.setLineDash([0, 0]);
+		ctx.beginPath()
+		ctx.moveTo(...points[0])
+		ctx.lineTo(...points[1])
+		ctx.lineTo(...points[2])
+		ctx.stroke()
 
 
+		//draw point
+		ctx.fillStyle = '#D87C10';
 
-
+		points.forEach(point => {
+			ctx.beginPath()
+			ctx.arc(point[0], point[1], 7.5, 0, (Math.PI / 180) * 360, true)
+			ctx.fill()
+			ctx.closePath()
+		})
 
 	}
 }
+
+
 
 draw()
