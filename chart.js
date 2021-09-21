@@ -223,7 +223,7 @@ const draw = () => {
 
 		//loop for draw dashed lineY
 		for (let i = 0, p = 44; i < 5; i++, p = p + 44) {
-			ctx.lineWidth = 2;
+			ctx.lineWidth = 1;
 			ctx.setLineDash([5, 5]);
 			ctx.beginPath();
 			ctx.moveTo(57.5, 295 - p);
@@ -235,7 +235,7 @@ const draw = () => {
 
 		//loop for draw dashed lineX
 		for (let i = 0, p = 66; i < 5; i++, p = p + 66) {
-			ctx.lineWidth = 2;
+			ctx.lineWidth = 1;
 			ctx.setLineDash([5, 5]);
 			ctx.beginPath();
 			ctx.moveTo(56.5 + p, 296);
