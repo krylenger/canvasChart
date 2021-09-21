@@ -98,7 +98,7 @@ const distanceToRender = (amendment) => amendment.distance / 1000
 const distanceAmendmentToRender = (amendment) => Number(amendment.distanceAmendment.toFixed(0))
 const reversalAmendmentToRender = (amendment) => Number(amendment.reversalAmendment.toFixed(2))
 
-const amendmentsToRender = ammendments5.map(amendment => ([
+const amendmentsToRender = ammendments3.map(amendment => ([
 	distanceToRender(amendment),
 	distanceAmendmentToRender(amendment),
 	reversalAmendmentToRender(amendment),
@@ -218,8 +218,6 @@ const draw = () => {
 		//Y legenda
 		ctx.fillText(`ΔДΣ`, 17, 30);
 
-
-
 		//Y legenda
 		ctx.fillText(`Дт, км`, 468, 312);
 
@@ -232,7 +230,7 @@ const draw = () => {
 			ctx.lineTo(448.5, 295 - p);
 			ctx.stroke();
 
-			ctx.fillText(`${yPoints[i]}`, 20.5, 300 - p);
+			ctx.fillText(yPoints[i] > 0 ? `+${yPoints[i]}` : `${yPoints[i]}`, 10.5, 301 - p);
 		}
 
 		//loop for draw dashed lineX
