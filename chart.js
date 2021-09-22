@@ -98,7 +98,7 @@ const distanceToRender = (amendment) => amendment.distance / 1000
 const distanceAmendmentToRender = (amendment) => Number(amendment.distanceAmendment.toFixed(0))
 const reversalAmendmentToRender = (amendment) => Number(amendment.reversalAmendment.toFixed(2))
 
-const amendmentsToRender = ammendments3.map(amendment => ([
+const amendmentsToRender = ammendments5.map(amendment => ([
 	distanceToRender(amendment),
 	distanceAmendmentToRender(amendment),
 	reversalAmendmentToRender(amendment),
@@ -252,8 +252,9 @@ const draw = () => {
 		amendmentsToRender.forEach(amendment => {
 			const distaneFromBeginningY = (amendment[1] - yPoints[0]) / valueOfPixelY
 			const distaneFromBeginningX = (amendment[0] - xPoints[0]) / valueOfPixelX
+			const correction = amendment[1] / 1000 / valueOfPixelX
 
-			points.push([122.5 + distaneFromBeginningX, 251.5 - distaneFromBeginningY])
+			points.push([122.5 + distaneFromBeginningX - correction, 251.5 - distaneFromBeginningY])
 		})
 
 		//draw lines
@@ -266,14 +267,17 @@ const draw = () => {
 		ctx.stroke()
 
 
-		//draw point
+		//draw points
 		ctx.fillStyle = '#D87C10';
+		ctx.font = '20px openSans'
 
-		points.forEach(point => {
+		points.forEach((point, index) => {
 			ctx.beginPath()
 			ctx.arc(point[0], point[1], 7.5, 0, (Math.PI / 180) * 360, true)
 			ctx.fill()
 			ctx.closePath()
+
+			ctx.fillText(amendmentsToRender[index][2], point[0] - 11, point[1] - 15);
 		})
 
 	}
